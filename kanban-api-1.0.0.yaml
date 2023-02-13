@@ -1,0 +1,453 @@
+---
+openapi: 3.0.0
+info:
+  title: Kanban API
+  description: "<div>Kanban API is the part of Modern Application Development - I project. </div> <br/>\n<h3> 'users' Table Schema </h3>  <table>\n  <thead>\n    <th>Column Name</th>\n    <th>Column Type</th>\n    <th>Constraints</th>\n  </thead>\n  <tbody>\n  <tr>\n    <td>id</td>\n    <td>Integer</td>\n    <td>Primary Key, Auto Increment</td>\n  </tr>\n  <tr>\n    <td>email</td>\n    <td>String</td>\n    <td>Unique, Not Null</td>\n  </tr>\n  <tr>\n    <td>password</td>\n    <td>String</td>\n    <td>Not Null</td>\n  </tr> \n  <tr>\n    <td>name</td>\n    <td>String</td>\n    <td>Not Null</td>\n  </tr>      \n  <tr>\n    <td>created_at</td>\n    <td>Datetime</td>\n    <td></td>\n  </tr>       \n   <tr>\n    <td>updated_at</td>\n    <td>Datetime</td>\n    <td></td>\n  </tr>     \n</tbody> </table>\n<h3> 'lists' Table Schema </h3>  <table>\n  <thead>\n    <th>Column Name</th>\n    <th>Column Type</th>\n    <th>Constraints</th>\n  </thead>\n  <tbody>\n  <tr>\n    <td>list_id</td>\n    <td>Integer</td>\n    <td>Primary Key, Auto Increment</td>\n  </tr>\n  <tr>\n    <td>name</td>\n    <td>String</td>\n    <td>Not Null</td>\n  </tr>\n  <tr>\n    <td>user</td>\n    <td>Integer</td>\n    <td>Foreign Key (users.id), Not Null</td>\n  </tr>      \n  <tr>\n    <td>created_at</td>\n    <td>Datetime</td>\n    <td></td>\n  </tr>         \n  <tr>\n    <td>updated_at</td>\n    <td>Datetime</td>\n    <td></td>\n  </tr>         \n</tbody> </table>\n<h3> 'cards' Table Schema </h3>  <table>\n  <thead>\n    <th>Column Name</th>\n    <th>Column Type</th>\n    <th>Constraints</th>\n  </thead>\n  <tbody>\n  <tr>\n    <td>card_id</td>\n    <td>Integer</td>\n    <td>Primary Key, Auto Increment</td>\n  </tr>\n  <tr>\n    <td>title</td>\n    <td>String</td>\n    <td>Not Null</td>\n  </tr>\n  <tr>\n    <td>content</td>\n    <td>String</td>\n    <td></td>\n  </tr>\n  <tr>\n    <td>content</td>\n    <td>String</td>\n    <td></td>\n  </tr>\n  <tr>\n    <td>deadline</td>\n    <td>Date</td>\n    <td>Not Null</td>\n  </tr>\n  <tr>\n    <td>completed</td>\n    <td>Integer</td>\n    <td>Not Null</td>\n  </tr>\n  <tr>\n    <td>list</td>\n    <td>Integer</td>\n    <td>Foreign Key (lists.list_id), Not Null</td>\n  </tr>\n  <tr>\n    <td>completed_datetime</td>\n    <td>Datetime</td>\n    <td></td>\n  </tr>\n  <tr>\n    <td>created_at</td>\n    <td>Datetime</td>\n    <td></td>\n  </tr>\n  <tr>\n    <td>updated_at</td>\n    <td>Datetime</td>\n    <td></td>\n  </tr>\n</tbody> </table>\n<br/>\n<h3> Error Codes </h3>  <table>\n  <thead>\n    <th>Resource</th>\n    <th>Error Code</th>\n    <th>Message</th>\n  </thead>\n  <tbody>\n  <tr>\n    <td>User</td>\n    <td>U101</td>\n    <td>User does not exist</td>\n  </tr>\n  <tr>\n    <td>List</td>\n    <td>L101</td>\n    <td>name is required</td>\n  </tr>\n  <tr>\n    <td>List</td>\n    <td>L102</td>\n    <td>user id is required</td>\n  </tr>\n  <tr>\n    <td>List</td>\n    <td>L103</td>\n    <td>Cannot create more than 5 lists for a user</td>\n  </tr>\n  <tr>\n    <td>List</td>\n    <td>L104</td>\n    <td>List does not exist</td>\n  </tr>\n  <tr>\n    <td>Card</td>\n    <td>C101</td>\n    <td>title is required</td>\n  </tr>\n   <tr>\n    <td>Card</td>\n    <td>C102</td>\n    <td>content is required</td>\n  </tr>\n   <tr>\n    <td>Card</td>\n    <td>C103</td>\n    <td>deadline is required</td>\n  </tr>\n   <tr>\n    <td>Card</td>\n    <td>C104</td>\n    <td>completed flag is required</td>\n  </tr>\n   <tr>\n    <td>Card</td>\n    <td>C105</td>\n    <td>list id is required</td>\n  </tr>\n   <tr>\n    <td>Card</td>\n    <td>C106</td>\n    <td>Card does not exist</td>\n  </tr>\n</tbody> </table>\n"
+  version: 1.0.0
+servers:
+- url: http://127.0.0.1:5000/
+paths:
+  /api/list/{id}:
+    description: Url to read, update and delete a list resource with list_id = id.
+    get:
+      description: Operation to Read list resource.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 124
+      responses:
+        "200":
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/list object'
+        "500":
+          description: Internal Server Error
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+    put:
+      description: Operation to update the list resource.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 37
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/list_id_body'
+      responses:
+        "200":
+          description: Successfuly updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+    delete:
+      description: Operation to delete the list resource
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 37
+      responses:
+        "200":
+          description: Successfully Deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+  /api/list:
+    description: End point to create list resource
+    post:
+      description: Operation to create the list resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api_list_body'
+      responses:
+        "201":
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_201'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+  /api/card/{id}:
+    description: Url to read, update and delete the card resource.
+    get:
+      description: Operation to read card resource
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 68
+      responses:
+        "200":
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/card object'
+        "500":
+          description: Internal server error
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+    put:
+      description: Operation to update the card resource
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 68
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/card_id_body'
+      responses:
+        "200":
+          description: Successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_2'
+        "404":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+    delete:
+      description: Operation to delete the card resource
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          example: 68
+      responses:
+        "200":
+          description: Successfully Deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+        "404":
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+  /api/card:
+    description: Url to create card resource
+    post:
+      description: Operation to create the card resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api_card_body'
+      responses:
+        "201":
+          description: Successfully Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/student object'
+        "404":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "500":
+          description: Internal Server Error
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+components:
+  schemas:
+    list object:
+      title: list object
+      type: object
+      properties:
+        list_id:
+          type: integer
+          example: 37
+        name:
+          type: string
+          example: In Progress
+        user:
+          type: integer
+          example: 3
+        created_at:
+          type: string
+          example: Fri, 30 Sep 2022 14:16:46 -0000
+        updated_at:
+          type: string
+          example: Fri, 30 Sep 2022 14:16:46 -0000
+    inline_response_404:
+      type: object
+      properties:
+        error_code:
+          type: string
+        error_message:
+          type: string
+    list_id_body:
+      type: object
+      properties:
+        name:
+          type: string
+          example: To do
+    inline_response_200:
+      type: object
+      properties:
+        list_id:
+          type: integer
+          example: 37
+        name:
+          type: string
+          example: To do
+        user:
+          type: integer
+          example: 3
+        created_at:
+          type: string
+          example: Fri, 30 Sep 2022 14:16:46 -0000
+        updated_at:
+          type: string
+          example: Fri, 30 Sep 2022 14:16:46 -0000
+    inline_response_200_1:
+      type: object
+      properties:
+        message:
+          type: string
+    api_list_body:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Done
+        user_id:
+          type: integer
+          example: 3
+    inline_response_201:
+      type: object
+      properties:
+        list_id:
+          type: integer
+          example: 38
+        name:
+          type: string
+          example: Done
+        user:
+          type: integer
+          example: 3
+        created_at:
+          type: string
+          example: Fri, 30 Sep 2022 14:16:46 -0000
+        updated_at:
+          type: string
+    card object:
+      title: card object
+      type: object
+      properties:
+        card_id:
+          type: integer
+          example: 68
+        title:
+          type: string
+          example: Card Title
+        content:
+          type: string
+          example: Card Content
+        deadline:
+          type: string
+          example: 2022-10-27
+        completed:
+          type: integer
+          example: 0
+        list:
+          type: integer
+          example: 38
+        created_at:
+          type: string
+          example: Fri, 30 Sep 2022 14:16:46 -0000
+        updated_at:
+          type: string
+        completed_datetime:
+          type: string
+    card_id_body:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Card Title
+        content:
+          type: string
+          example: Card Content
+        deadline:
+          type: string
+          example: 2022-10-27
+        completed:
+          type: integer
+          example: 0
+    inline_response_200_2:
+      type: object
+      properties:
+        card_id:
+          type: integer
+          example: 68
+        title:
+          type: string
+          example: Card Title
+        content:
+          type: string
+          example: Card Content
+        deadline:
+          type: string
+          example: 2022-10-27
+        completed:
+          type: integer
+          example: 0
+        list:
+          type: integer
+          example: 38
+        created_at:
+          type: string
+          example: Fri, 30 Sep 2022 14:16:46 -0000
+        updated_at:
+          type: string
+        completed_datetime:
+          type: string
+    api_card_body:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Card Title
+        content:
+          type: string
+          example: Card Content
+        deadline:
+          type: string
+          example: 2022-10-27
+        completed:
+          type: integer
+          example: 0
+        list:
+          type: integer
+          example: 38
+    student object:
+      title: student object
+      type: object
+      properties:
+        card_id:
+          type: integer
+          example: 68
+        title:
+          type: string
+          example: Card Title
+        content:
+          type: string
+          example: Card Content
+        deadline:
+          type: string
+          example: 2022-10-27
+        completed:
+          type: integer
+          example: 0
+        list:
+          type: integer
+          example: 38
+        created_at:
+          type: string
+          example: Fri, 30 Sep 2022 14:16:46 -0000
+        updated_at:
+          type: string
+        completed_datetime:
+          type: string

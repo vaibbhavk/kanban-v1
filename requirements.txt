@@ -1,0 +1,7 @@
+Flask
+Flask-SQLAlchemy
+flask-login
+Flask-WTF
+email_validator
+matplotlib
+flask-restful

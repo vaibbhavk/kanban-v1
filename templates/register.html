@@ -1,0 +1,43 @@
+{% extends 'user_base.html' %} {% block content %}
+
+<div class="mb-4">
+  <h3 class="text-center">Welcome to the Kanban app</h3>
+  <p class="text-muted h2">Sign up</p>
+</div>
+
+<form
+  class="row needs-validation"
+  action={{url_for('register')}}
+  method="POST"
+  id="register-form"
+>
+  <label for="name" class="form-label">{{form.name.label}}</label>
+  <div class="input-group mb-3" id="name">
+    {{form.name(class="form-control")}} {% for field, errors in
+    form.errors.items() %}
+    <small class="form-text text-muted"> {{ ', '.join(errors) }} </small>
+    {% endfor %}
+  </div>
+
+  <label for="email" class="form-label">{{form.email.label}}</label>
+  <div class="input-group mb-3" id="email">
+    {{form.email(class="form-control")}}
+  </div>
+
+  <label for="password" class="form-label">{{form.password.label}}</label>
+  <div class="input-group mb-3" id="password">
+    {{form.password(class="form-control", type="password")}}
+  </div>
+
+  <div class="col-12 mb-3">
+    <div class="form-group">{{ form.submit(class="btn btn-outline-dark")}}</div>
+  </div>
+
+  <div>
+    <label for="already-exist" class="form-label"
+      >Already have an account?</label
+    >
+    <a href={{url_for('login')}} id="already-exist" class="alert-link">Sign in</a>
+  </div>
+</form>
+{% endblock content %}

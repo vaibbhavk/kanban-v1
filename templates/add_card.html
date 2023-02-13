@@ -1,0 +1,27 @@
+{% extends 'base.html' %} {% block main %}
+<div class="mb-4 text-center">
+  <small class="text-muted h2">Add a Card</small>
+</div>
+
+<form
+  class="row needs-validation"
+  action={{ url_for('add_card', list_id=list_id) }}
+  method="POST"
+  id="add-list-form"
+>
+  <label for="" class="form-label">{{form.title.label}}</label>
+  <div class="input-group mb-3">{{form.title(class="form-control")}}</div>
+
+  <label for="" class="form-label">{{form.content.label}}</label>
+  <div class="input-group mb-3">{{form.content(class="form-control")}}</div>
+
+  <label for="" class="form-label">{{form.deadline.label}}</label>
+  <div class="input-group mb-3">{{form.deadline(class="form-control")}}</div>
+
+  <label for="" class="form-label">{{form.completed.label}}</label>
+  <div class="input-group mb-3">{{form.completed(class="form-select")}}</div>
+
+  {{ form.submit(class="btn btn-primary") }}
+</form>
+
+{% endblock main %}

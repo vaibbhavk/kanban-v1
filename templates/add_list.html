@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% block main %}
+<div class="mb-4 text-center">
+  <small class="text-muted h2">Add a List</small>
+</div>
+<form
+  class="row needs-validation"
+  action={{ url_for('add_list') }}
+  method="POST"
+  id="add-list-form"
+>
+  <label for="name" class="form-label">{{form.name.label}}</label>
+  <div class="input-group mb-3" id="name">
+    {{form.name(class="form-control")}} {{ form.submit(class="btn btn-primary")
+    }}
+  </div>
+</form>
+
+{% endblock main %}

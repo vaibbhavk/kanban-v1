@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% block main %}
+<div class="mb-4 text-center">
+  <small class="text-muted h2">Edit a Card</small>
+</div>
+<form
+  class="row needs-validation"
+  action={{ url_for('edit_card', card_id=card.card_id) }}
+  method="POST"
+  id="edit-card-form"
+>
+  <label for="list" class="form-label">{{form.list.label}}</label>
+  <div class="input-group mb-3">{{form.list(class="form-select")}}</div>
+
+  <label for="" class="form-label">{{form.title.label}}</label>
+  <div class="input-group mb-3">
+    {{form.title(class="form-control", value=card.title)}}
+  </div>
+
+  <label for="" class="form-label">{{form.content.label}}</label>
+  <div class="input-group mb-3">
+    {{form.content(class="form-control", value=card.content)}}
+  </div>
+
+  <label for="" class="form-label">{{form.deadline.label}}</label>
+  <div class="input-group mb-3">
+    {{form.deadline(class="form-control", value=card.deadline)}}
+  </div>
+
+  <label for="" class="form-label">{{form.completed.label}}</label>
+  <div class="input-group mb-3">{{form.completed(class="form-select")}}</div>
+
+  {{ form.submit(class="btn btn-primary")}}
+</form>
+
+{% endblock main %}

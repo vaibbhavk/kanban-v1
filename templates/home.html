@@ -1,0 +1,130 @@
+{% extends 'base.html' %} {% block main %}
+
+<div class="row row-cols-5">
+  {% for list in lists %}
+  <div class="col border border-secondary">
+    <div class="d-flex justify-content-evenly mb-5 mt-4 align-items-center">
+      <p class="h4">{{list.name}}</p>
+
+      <div class="dropdown">
+        <a
+          class="btn btn-secondary dropdown-toggle"
+          href="#"
+          role="button"
+          id="dropdownMenuLink"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+        </a>
+
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <li>
+            <a
+              class="dropdown-item"
+              href={{ url_for('edit_list', list_id=list.list_id) }}
+              >Edit</a
+            >
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              href={{ url_for('delete_list', list_id=list.list_id) }}
+              >Delete</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    {% for card in list.cards %}
+    <div class="card mb-4">
+      <div
+        class="card-header d-flex justify-content-between align-items-center"
+      >
+        {{card.title}}
+        <div class="dropdown">
+          <a
+            class="btn btn-secondary dropdown-toggle"
+            href="#"
+            role="button"
+            id="dropdownMenuLink"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+          </a>
+
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li>
+              <a
+                class="dropdown-item"
+                href={{ url_for('edit_card', card_id=card.card_id) }}
+                >Edit</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                href={{ url_for('delete_card', card_id=card.card_id) }}
+                >Delete</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="card-body">
+        <blockquote class="blockquote mb-0">
+          <p>{{card.content}}</p>
+          <footer class="blockquote-footer">
+            {{card.deadline.strftime("%d %b, %Y")}}
+          </footer>
+
+          {% if card.completed == 1 %}
+          <i class="bi bi-check-square"></i>
+
+          {% else %}
+          <i class="bi bi-x-square"></i>
+
+          {% endif %}
+        </blockquote>
+      </div>
+    </div>
+
+    {% endfor %}
+    <div class="col">
+      <a href={{ url_for('add_card', list_id=list.list_id) }} id="already-exist"
+        ><svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="75"
+          height="75"
+          fill="#ACDDDE"
+          class="bi bi-plus-circle-fill btn"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
+          />
+        </svg>
+      </a>
+    </div>
+  </div>
+  {% endfor %} {% if lists|length < 5 %}
+  <div class="col">
+    <a href={{ url_for('add_list') }} id="already-exist"
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="100"
+        height="100"
+        fill="#CED2C2"
+        class="bi bi-plus-circle-fill btn"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
+        />
+      </svg>
+    </a>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock main %}
