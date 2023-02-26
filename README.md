@@ -1,4 +1,6 @@
-# KanbanApp
+# Kanban v1
+
+Kanban is an application built in Flask for managing tasks in a project.
 
 ## Run Locally (cmd)
 
@@ -64,7 +66,6 @@ Start the server
 - `static` - Default `static` files folder. It serves at '/static' path. More about it is [here](https://flask.palletsprojects.com/en/2.0.x/tutorial/static/).
 - `templates` - Default flask templates folder.
 - `kanban_db.sqlite3` - Application database file.
-- `kanban-api-1.0.0.yaml` - For Kanban API documentation.
 - `main.py` - The main entry-point of the app to setup and initialize.
 - `README.md` - A readme file that explains how to run the code.
 - `requirements.txt` - Contains the project dependencies.
